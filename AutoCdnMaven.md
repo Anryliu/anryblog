@@ -2,19 +2,19 @@
 
 :construction_worker:
 
-## 本文目标：
+## 一.本文目标：
 
 * 1.初步认识gulp
 * 2.了解maven，实现自动发布maven war包
 * 3.了解OSS，实现自动发布cdn资源
 * 4.了解前端工程构建
 
-## 初步认识gulp
+## 二.初步认识gulp
 
  gulp是前端开发过程中对代码进行构建的工具，是自动化项目的构建利器；她不仅能对网站资源进行优化，而且在开发过程中很多重复的任务能够使用正确的工具自动完成；使用了以后呢，我们不仅可以很愉快的编写代码，还能大大提高我们的工作效率。
  特点：**易用，易学，快速高效**
 
-### 安装
+### 2.1安装
 
 >依赖node运行环境，node安装使用[传送门](https://nodejs.org/en/docs/guides/)
 >
@@ -26,7 +26,7 @@
 >
 >`npm install --save-dev gulp`
 
-#### 常用的gulp插件
+#### 2.1.1常用的gulp插件
 
 1. gulp-less: 把less文件转成css文件
 2. gulp-clean-css：css文件压缩
@@ -35,7 +35,7 @@
 5. gulp-rename：重命名，给js压缩文件添加.min后缀
 6. gulp-jshint：js语法检查
 
-#### 编译less文件示例
+### 2.2编译less文件示例
 
 >需要安装gulp-less插件，作为项目的开发依赖（devDependencies）安装：
 >
@@ -67,15 +67,15 @@ gulp.task('less', function () {
 >有关gulp的进阶用法，各种插件请访问[GULP中文网](https://www.gulpjs.com.cn/)
 >
 
-## 了解maven，编写gulp 任务，实现自动上传war包
+## 三.了解maven，编写gulp 任务，实现自动上传war包
 
-### Maven
+### 3.1 Maven
 
 Maven是一个项目管理和综合工具。Maven提供了开发人员构建一个完整的生命周期框架。开发团队可以自动完成项目的基础工具建设，Maven使用标准的目录结构和默认构建生命周期。Apache Maven 是一种创新的软件项目管理工具，提供了一个项目对象模型（POM）文件的新概念来管理项目的构建，相关性和文档。最强大的功能就是能够自动下载项目依赖库。
 
-### Maven安装使用
+### 3.2Maven安装使用
 
-#### Maven安装配置
+#### 3.2.1Maven安装配置
 
 在Windows 系统上, 需要下载 Maven 的 zip 文件，并将其解压到你想安装的目录，并配置 Windows 环境变量。
 
@@ -115,7 +115,7 @@ OS name: "mac os x", version: "10.13.6", arch: "x86_64", family: "mac"
 
 如果推送失败，可以根据错误提示，查找原因，一般情况下，检查maven conf的配置文件，前端推送的maven war包 ，会在pom.xml被配置依赖，启动maven项目会将前端依赖解压在target下，保证页面可被访问，部署也同样
 
-#### Maven POM
+#### 3.2.2Maven POM
 
 POM代表项目对象模型。它是 Maven 中工作的基本单位，这是一个 XML 文件。它始终保存在该项目基本目录中的 pom.xml 文件。
 POM 包含的项目是使用 Maven 来构建的，它用来包含各种配置信息。
@@ -147,7 +147,7 @@ POM 也包含了目标和插件。在执行任务或目标时，Maven 会使用�
 
 ```
 
-#### Maven其他知识
+#### 3.2.3Maven其他知识
 
 有部分前端的同学对maven不了解，可以访问[教程](https://www.yiibai.com/maven/)获取相关知识,以及运行原理
 
@@ -156,11 +156,11 @@ POM 也包含了目标和插件。在执行任务或目标时，Maven 会使用�
 * Maven Web应用
 * ...
 
-### maven自动化推送
+### 3.3maven自动化推送
 
 将前端的资源通过压缩，生成一个war文件，然后执行 _mvn install_ 可将war部署在本地仓库，_mvn deploy_ 可将资源推送到远程仓库
 
-#### gulp deploy任务
+#### 3.3.1gulp deploy任务
 
 在 _gulpfile.js_ 引入依赖文件,增加打包推送的任务，代码如下：
 
@@ -261,7 +261,7 @@ module.exports = {
 ```
 gulpfile任务编写完成，接下测试一下
 
-#### 本地测试
+#### 3.3.2本地测试
 >
 >在终端执行
 >
@@ -270,13 +270,13 @@ gulpfile任务编写完成，接下测试一下
 ![gulpdeploy](https://github.com/Anryliu/anryblog/blob/master/1534920844434.jpg?raw=true)
 在deploymvn加了一些consoleinfo的信息，会输出在控制台上，也会看到publish  war success的输出，说明war包推送成功，我们可在本地和远程mvn仓库检查war包是否存在正确
 
-#### 为什么要发布一个前端的war包? :beers:
+#### 3.3.3为什么要发布一个前端的war包? :beers:
 
 在前后端分离的开发模式中，前端推送maven项目依赖的war包，正好解决了web应用中，前端资源依赖的问题，也便于前端项目版本迭代升级，可以做到个性化输出。
 
 当然可以把前端所有的编译打包任务，都交由maven的插件去处理，前端开发人员只需要在gitlab等托管平台上提交代码即可，自动化部署的话题在下一次的分享中可以详细说明下。
 
-## 推送CDN资源
+## 四.推送CDN资源
 
 CDN是构建在网络之上的内容分发网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术。
 
@@ -285,12 +285,11 @@ CDN是构建在网络之上的内容分发网络，依靠部署在各地的边�
 
 依托CDN技术，可以提升站点的访问速度和稳定性，保证不同网络中的用户都能得到良好的访问质量。带宽优化，以及预防一些网络入侵，降低DDOS攻击对站点的影响。
 
-CDN
-将源站内容分发至最接近用户的节点，使用户可就近取得所需内容，提高用户访问的响应速度和成功率。解决因分布、带宽、服务器性能带来的访问延迟问题，适用于站点加速、点播、直播等场景。
+CDN将源站内容分发至最接近用户的节点，使用户可就近取得所需内容，提高用户访问的响应速度和成功率。解决因分布、带宽、服务器性能带来的访问延迟问题，适用于站点加速、点播、直播等场景。
 
 我们以使用阿里云存储cdn资源的案例实现cdn自动化上传
 
-### 安装依赖，增加gulp任务
+### 4.1安装依赖，增加gulp任务
 >
 >`npm install ora ali-oss co co-request  —save-dev`
 >
@@ -370,7 +369,7 @@ gulp.task('uposs', function () {
 
 ```
 
-### uposs任务测试
+### 4.2uposs任务测试
 >
 >在终端执行
 >
@@ -380,7 +379,7 @@ gulp.task('uposs', function () {
 
 ![gulp uposs](https://github.com/Anryliu/anryblog/blob/master/1534920816208.jpg?raw=true)
 
-## gulp任务改进及工程构建
+## 五.gulp任务改进及工程构建
 
 以上两部分内容分别实现了发布war包和上传cdn资源，但实际上我们每次都要在终端输入 _gulp deploy_ 和 _gulp uposs_ 也是挺闹心，为此我们在gulpfile.js配置一个新的build任务，build任务可包括，源码编译压缩，文件合并，多语翻译，cdn上传，deploy war包等集合任务，构建生产环境只需要执行gulp build，为了区分开发环境在node的process.env增加env的属性用来区分生产环境和测试开发环境，然后配置在package.json中，具体示例：
 
@@ -423,7 +422,7 @@ gulp.task('build', function (callback) {
 
 也是一壶爽的事情... :beers:
 
-### 前端工程构建
+### 5.1前端工程构建
 
 构建的过程
 
@@ -431,7 +430,7 @@ gulp.task('build', function (callback) {
 ---------|----------|---------
 scss less es6  ts jsx| 编译环境 global 工具gulpwebpack 执行各种任务 | mincss minjs html
 
-## 尾记
+## 六.尾记
 
 最近有前端同学正在做前端项目构建，发布cdn，尝试前后端分离等，我讲我的实践分享出来，前端的同学可以尝试着用一下，有更好的意见和建议欢迎分享提问，大家交流一起交流。
 

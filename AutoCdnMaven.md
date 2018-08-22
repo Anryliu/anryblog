@@ -381,7 +381,7 @@ gulp.task('uposs', function () {
 
 ## 五.gulp任务改进及工程构建
 
-以上两部分内容分别实现了发布war包和上传cdn资源，但实际上我们每次都要在终端输入 _gulp deploy_ 和 _gulp uposs_ 也是挺闹心，为此我们在gulpfile.js配置一个新的build任务，build任务可包括，源码编译压缩，文件合并，多语翻译，cdn上传，deploy war包等集合任务，构建生产环境只需要执行gulp build，为了区分开发环境在node的process.env增加env的属性用来区分生产环境和测试开发环境，然后配置在package.json中，具体示例：
+以上两部分内容分别实现了发布war包和上传cdn资源，但实际上我们每次都要在终端输入 _gulp deploy_ 和 _gulp uposs_ 也是挺闹心，为此我们在gulpfile.js配置一个新的build任务，build任务可包括，源码编译压缩，文件合并，多语翻译，cdn上传，deploy war包等集合任务，构建生产环境只需要执行gulp build，为了区分开发环境在node的process.env增加env的属性用来区分生产环境和测试开发环境，然后配置在package.json中，具体示例：
 
 ```
 

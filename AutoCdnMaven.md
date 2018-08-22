@@ -26,7 +26,7 @@
 >
 >`npm install --save-dev gulp`
 
-#### 2.1.1常用的gulp插件
+### 2.2常用的gulp插件
 
 1. gulp-less: 把less文件转成css文件
 2. gulp-clean-css：css文件压缩
@@ -35,7 +35,7 @@
 5. gulp-rename：重命名，给js压缩文件添加.min后缀
 6. gulp-jshint：js语法检查
 
-### 2.2编译less文件示例
+### 2.3编译less文件示例
 
 >需要安装gulp-less插件，作为项目的开发依赖（devDependencies）安装：
 >

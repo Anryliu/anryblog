@@ -467,7 +467,7 @@ scss less es6  ts jsx 等文件| node环境 global对象 gulp webpack工具 执�
 
 一些基本的概念和使用方法没有做详细介绍，需要学习的话，利用下网络资源,比如nodejs API fs模块 process？ gulpplugins gulp高阶使用等等
 
->### 鸣谢：郭(永锋)老师
+>### 感谢郭(永锋)老师提出修改意见
 
 附赠一张我的手写体
 

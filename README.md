@@ -5,3 +5,5 @@
 ### [3.搜罗一切webpack的好文章好工具](https://github.com/webpack-china/awesome-webpack-cn)
 ### [4.js基础类型](../../issues/6)
 ### [5.es6新特性解读](../../issues/7)
+
+### [6.gulp 上传cdn和maven](../../issues/7)

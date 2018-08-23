@@ -9,6 +9,10 @@
 * 3.了解OSS，实现自动发布cdn资源
 * 4.了解前端工程构建
 
+微服务架构下，为了解决前后端分离，前端资源部署的问题，我们采用了maven项目依赖前端war的方式部署web服务，编写插件，利用gulp完成前端项目的打包发布，包括发布maven和cdn资源，实现自动化推送maven war，减少了前端发布流程，自动化推送cdn，省去了手动上传文件的繁琐步骤。
+
+前端同学可具体关注实现细节，了解maven,oss等基本概念，后端同学可以了解前端自动化实现工具gulp，以及node，源码编译打包过程等。
+
 ## 二.初步认识gulp
 
  gulp是前端开发过程中对代码进行构建的工具，是自动化项目的构建利器；她不仅能对网站资源进行优化，而且在开发过程中很多重复的任务能够使用正确的工具自动完成；使用了以后呢，我们不仅可以很愉快的编写代码，还能大大提高我们的工作效率。
@@ -113,7 +117,7 @@ OS name: "mac os x", version: "10.13.6", arch: "x86_64", family: "mac"
 
 `mvn deploy:deploy-file  -Dfile=/Users/anry/fedir/dist.war   -DgroupId=com.yonyou.iuap -DartifactId=iuap_hello_fe  -Dversion=2.1.4-fe-SNAPSHOT -Dpackaging=war  -DrepositoryId=iUAP-Snapshots -Durl=http://mavendemorepo.com/nexus/content/repositories/iUAP-Snapshots/`
 
-如果推送失败，可以根据错误提示，查找原因，一般情况下，检查maven conf的配置文件，前端推送的maven war包 ，会在pom.xml被配置依赖，启动maven项目会将前端依赖解压在target下，保证页面可被访问，部署也同样
+如果推送失败，可以根据错误提示，查找原因，一般情况下，检查maven conf的配置文件，前端推送的maven war包 ，会在pom.xml被配置依赖，启动maven项目会将前端依赖解压在target下，保证页面可被访问。启动web服务，会根据配置，将资源copy到服务器部署webapp的目录
 
 #### 3.2.2Maven POM
 
@@ -158,7 +162,7 @@ POM 也包含了目标和插件。在执行任务或目标时，Maven 会使用�
 
 ### 3.3maven自动化推送
 
-将前端的资源通过压缩，生成一个war文件，然后执行 _mvn install_ 可将war部署在本地仓库，_mvn deploy_ 可将资源推送到远程仓库
+将前端源码编译后打包压缩，生成一个war文件，然后执行 _mvn install_ 可将war部署在本地仓库，_mvn deploy_ 可将资源推送到远程仓库
 
 #### 3.3.1gulp deploy任务
 
@@ -197,11 +201,10 @@ gulp.task('deploy', ['package'], function () {
 
 deploymvn.js 定义如下：
 
-```
-
-var publishConfig = require('./conf/config').publishConfig;
+需要配置publishConfig，
 
 //publishConfig定义了执行mvn install和mvn deploy 的参数示例如下：
+```
     // publishConfig: {
     //     command: "mvn",
     //     repositoryId: "iUAP-Snapshots",
@@ -209,7 +212,17 @@ var publishConfig = require('./conf/config').publishConfig;
     //     artifactId: "iuap_your_fe",
     //     groupId: "com.yonyou.iuap",
     //     version: "2.1.4-yourfe-SNAPSHOT"
-    // },
+    * // },
+
+```    
+在deploymvn模块中使用了node fs模块和child_process模块
+> * fs模块 提供文件系统的api，处理文件的读写操作
+> * child_process模块，可以创建子进程，child_process.exec方法可以创建异步进程
+
+```
+
+var publishConfig = require('./conf/config').publishConfig;
+
 
 var fs = require('fs');
 module.exports = {
@@ -284,22 +297,37 @@ CDN是构建在网络之上的内容分发网络，依靠部署在各地的边�
 
 CDN将源站内容分发至最接近用户的节点，使用户可就近取得所需内容，提高用户访问的响应速度和成功率。解决因分布、带宽、服务器性能带来的访问延迟问题，适用于站点加速、点播、直播等场景。
 
-我们以使用阿里云存储cdn资源的案例实现cdn自动化上传
+这里以使用阿里云存储cdn资源的案例实现cdn自动化上传
 
 借用一张图
 ![CDN应用](https://img.alicdn.com/tps/TB1JjgZOFXXXXX6XXXXXXXXXXXX-1530-1140.png)
 
 ### 4.1安装依赖，增加gulp任务
+
+
 >
 >`npm install ora ali-oss co co-request  —save-dev`
 >
-增加deploycdn.js,内容如下：
+>
+增加deploycdn.js,配置阿里云授权id，密钥仓库，地区等参数如下：
+```
+    //ossconfig配置
+    // ossconfig: {
+    //     accessKeyId: 'youraccessKeyId',
+    //     accessKeySecret: 'youraccessKeySecret',
+    //     bucket: 'your bucket',
+    //     region: 'oss-cn-beijing',
+    // },
+
+```
+
+尝试了几个其他的npm oss的库，不是很好用，所以借鉴实现了deploycdn模块，内容如下：
 ```
 
 var fs = require('fs');
-var co = require('co');
-var path = require('path');
-var oss = require('ali-oss');
+var co = require('co'); //promises,实现异步任务
+var path = require('path'); 
+var oss = require('ali-oss');//ali-oss-js-sdk
 var ossconfig = require('./conf/config').ossconfig;
 //ossconfig配置
     // ossconfig: {

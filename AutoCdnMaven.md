@@ -30,7 +30,17 @@
 >
 >`npm install --save-dev gulp`
 
-### 2.2常用的gulp插件
+### 2.2常用的gulp api及插件
+
+#### gulp api总共5个
+
+* Gulp.task(name, fn) 用来定义任务的
+* Gulp.run(tasks…) 从3.5开始弃用，将在4.0中删除。https://github.com/gulpjs/gulp/blob/master/index.js#L16
+* Gulp.src(glob) 用来读取文件
+* Gulp.dest(folder) 用来写入文件
+* Gulp.watch(glob, fn) 用来监听文件是否改动过
+
+#### gulp常用插件
 
 1. gulp-less: 把less文件转成css文件
 2. gulp-clean-css：css文件压缩
@@ -41,7 +51,7 @@
 
 ### 2.3编译less文件示例
 
->需要安装gulp-less插件，作为项目的开发依赖（devDependencies）安装：
+需要安装gulp-less插件，作为项目的开发依赖（devDependencies）安装：
 >
 >`npm install --save-dev gulp-less`
 
@@ -62,14 +72,13 @@ gulp.task('less', function () {
 
 ```
 
-> 在终端执行
+在终端执行
 >
 >`gulp less`
 >
->在public/css中可以看到编译后的css文件内容
+在public/css中可以看到编译后的css文件内容
 >
->有关gulp的进阶用法，各种插件请访问[GULP中文网](https://www.gulpjs.com.cn/)
->
+有关gulp的进阶用法，各种插件请访问[GULP中文网](https://www.gulpjs.com.cn/)
 
 ## 三.了解maven，编写gulp 任务，实现自动上传war包
 
@@ -93,11 +102,11 @@ Maven是一个项目管理和综合工具。Maven提供了开发人员构建一�
 
 在mac系统下，可以在终端执行`brew install maven` 前提是安装了[homebrew](https://brew.sh/)工具
 
->安装成功可以在终端测试
+安装成功可以在终端测试
 >
 >`mvn -v`
 >
-输出 
+输出
 ```
 
 Apache Maven 3.5.4 (1edded0938998edf8bf061f1ceb3cfdeccf443fe; 2018-06-18T02:33:14+08:00)
@@ -193,7 +202,7 @@ gulp.task("package", function () {
 //发布maven
 gulp.task('deploy', ['package'], function () {
     maven.install();//本地安装
-    maven.deploy(); //远程安装
+    maven.deploy(); //远程推送
 });
 
 
@@ -216,8 +225,8 @@ deploymvn.js 定义如下：
 
 ```    
 在deploymvn模块中使用了node fs模块和child_process模块
-> * fs模块 提供文件系统的api，处理文件的读写操作
-> * child_process模块，可以创建子进程，child_process.exec方法可以创建异步进程
+> fs模块提供文件系统的api，处理文件的读写操作
+> child_process模块，可以创建子进程，child_process.exec方法可以创建异步进程
 
 ```
 
@@ -399,7 +408,7 @@ gulp.task('uposs', function () {
 
 ### 4.2uposs任务测试
 >
->在终端执行
+在终端执行
 >
 >`gulp uposs`
 >
@@ -456,7 +465,7 @@ gulp.task('build', function (callback) {
 
 源码 -> | 编译 -> | 产出（线上线下）
 ---------|----------|---------
-scss less es6  ts jsx| 编译环境 global 工具gulpwebpack 执行各种任务 | mincss minjs html
+scss less es6  ts jsx 等文件| node环境 global对象 gulp webpack工具 执行各种编译任务 | mincss minjs html等
 
 ## 六.尾记
 
@@ -464,7 +473,7 @@ scss less es6  ts jsx| 编译环境 global 工具gulpwebpack 执行各种任务 
 
 一些基本的概念和使用方法没有做详细介绍，需要学习的话，利用下网络资源,比如nodejs API fs模块 process？ gulpplugins gulp高阶使用等等
 
->## 鸣谢：郭(永锋)老师
+>### 鸣谢：郭(永锋)老师
 
 附赠一张我的手写体
 

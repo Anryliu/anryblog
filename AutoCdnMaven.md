@@ -338,13 +338,6 @@ var co = require('co'); //promises,实现异步任务
 var path = require('path'); 
 var oss = require('ali-oss');//ali-oss-js-sdk
 var ossconfig = require('./conf/config').ossconfig;
-//ossconfig配置
-    // ossconfig: {
-    //     accessKeyId: 'youraccessKeyId',
-    //     accessKeySecret: 'youraccessKeySecret',
-    //     bucket: 'your bucket',
-    //     region: 'oss-cn-beijing',
-    // },
 
 var store = oss(ossconfig);
 
@@ -381,6 +374,7 @@ module.exports= function(date){
 ```
 
 在gulpfile.js增加任务
+
 ```
 
 

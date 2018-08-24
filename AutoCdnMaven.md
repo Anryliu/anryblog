@@ -1,4 +1,4 @@
-# Gulp实现自动发布CDN和Maven
+# 基于Gulp实现静态资源自动发布到CDN和Maven仓库的工程实践
 
 :construction_worker:
 
@@ -453,19 +453,17 @@ gulp.task('build', function (callback) {
 
 也是一壶爽的事情... :beers:
 
-### 5.1前端工程构建
-
-构建的过程
+### 5.1构建过程
 
 源码 -> | 编译 -> | 产出（线上线下）
 ---------|----------|---------
-scss less es6  ts jsx 等文件| node环境 global对象 gulp webpack工具 执行各种编译任务 | mincss minjs html等
+scss less es6  ts jsx 等文件| node环境 global对象 gulp webpack工具 执行编译任务 | mincss minjs html等
 
 ## 六.尾记
 
 最近有前端同学正在做前端项目构建，发布cdn，发布maven，尝试前后端分离，解决部署的问题，前端的同学可以尝试着用一下，有更好的意见和建议欢迎分享提问，大家一起交流。
 
-一些基本的概念和使用方法没有做详细介绍，需要学习的话，利用下网络资源,比如nodejs API fs模块 process？ gulpplugins gulp高阶使用等等
+一些基本的概念和使用方法没有做详细介绍，需要学习的话，利用下网络资源,比如nodejsAPI fs模块 process模块 gulpplugins gulp高阶使用等等
 
 >### 感谢郭(永锋)老师提出修改意见
 
